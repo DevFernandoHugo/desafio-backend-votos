@@ -16,6 +16,10 @@ public interface IPautaService {
 	Mono<Pauta> consultarPautaPorId(Long id);
 
 	Mono<Boolean> registrarPauta(PautaVo descricao);
+
+	Mono<Boolean> verificarPautaSessaoAberta(Long codigoPautaSessao);
+
+	Mono<List<Pauta>> consultarPautasComSessaoAberta();
 	
 	
 

@@ -12,6 +12,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import com.desafio.sessao.repository.IPautaRepository;
 import com.desafio.sessao.service.PautaService;
+import com.desafio.sessao.service.IPautaService;
+import com.desafio.sessao.service.SessaoService;
 import com.desafio.sessao.constant.MensagemVotacaoEnum;
 import com.desafio.sessao.exception.DatabaseException;
 import com.desafio.sessao.exception.PautaException;
@@ -39,8 +41,14 @@ public class PautaServiceUnitTest {
 	@Mock
 	private IPautaRepository pautaRepository;
 
+	@Mock
+	private IPautaService mockPautaservice;
+
 	@InjectMocks
 	private PautaService pautaservice;
+
+	@Mock
+	private SessaoService sessaoService;
 
 	private PautaVo pautaVo;
 
@@ -225,6 +233,53 @@ public class PautaServiceUnitTest {
 			return Mono.empty();
 		}).subscribe();
 
+	}
+
+	@Test
+	public void testeConsultarPautasComSessaoAbertaSucesso() {
+
+		List<Long> listaChaveSessao = new ArrayList<>();
+		listaChaveSessao.add(1L);
+		listaChaveSessao.add(2L);
+
+		Mockito.when(sessaoService.recuperaSessoesAbertas()).thenReturn(Mono.just(listaChaveSessao));
+
+		Mockito.when(pautaRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(listPautaEntity.get(0)))
+				.thenReturn(Optional.of(listPautaEntity.get(1)));
+
+		pautaservice.consultarPautasComSessaoAberta().flatMap(list -> {
+			Assert.assertNotNull(list);
+			Assert.assertFalse(list.isEmpty());
+			return Mono.empty();
+		}).subscribe();
+
+	}
+
+	@Test
+	public void testeConsultarPautasComSessaoAbertaBadRequest() {
+
+		List<Long> listaChaveSessao = new ArrayList<>();
+
+		Mockito.when(sessaoService.recuperaSessoesAbertas()).thenReturn(Mono.just(listaChaveSessao));
+
+		pautaservice.consultarPautasComSessaoAberta().onErrorResume(error -> {
+			PautaException erro = (PautaException) error;
+			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			return Mono.empty();
+		}).subscribe();
+
+	}
+
+	@Test
+	public void testeVerificarPautaSessaoAbertaSucesso() {
+
+		Mockito.when(sessaoService.verificarSessao("2")).thenReturn(Mono.just(Boolean.TRUE));
+
+		pautaservice.verificarPautaSessaoAberta(2L).flatMap(ok -> {
+			Assert.assertNotNull(ok);
+			Assert.assertEquals(true, ok);
+			return Mono.empty();
+		}).subscribe();
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.desafio.sessao.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.desafio.sessao.entity.Pauta;
 import com.desafio.sessao.repository.IPautaRepository;
+import com.desafio.sessao.service.ISessaoService;
 import com.desafio.sessao.constant.MensagemVotacaoEnum;
 import com.desafio.sessao.exception.DatabaseException;
 import com.desafio.sessao.exception.PautaException;
@@ -30,9 +32,12 @@ public class PautaService implements IPautaService {
 
 	private IPautaRepository pautaRepository;
 
+	private ISessaoService sessaoService;
+
 	@Autowired
-	public PautaService(IPautaRepository pautaRepository) {
+	public PautaService(IPautaRepository pautaRepository, ISessaoService sessaoService) {
 		this.pautaRepository = pautaRepository;
+		this.sessaoService = sessaoService;
 	}
 	
 	/**
@@ -135,4 +140,36 @@ public class PautaService implements IPautaService {
 				HttpStatus.BAD_REQUEST.value()));
 	}
 
+	/**
+	 * Verificar se a pauta possui sessao aberta
+	 * @param codigoPautaSessao , codigo utlizado para verificar se a pauta possui sessao aberta
+	 * @return se a sessão foi encontrada
+	 */
+	@Override
+	public Mono<Boolean> verificarPautaSessaoAberta(Long codigoPautaSessao) {
+		return sessaoService.verificarSessao(codigoPautaSessao.toString()).doOnError(
+				onError -> Mono.error(new PautaException(MensagemVotacaoEnum.ERRO_GENERICO.getValor(),
+						HttpStatus.INTERNAL_SERVER_ERROR.value())));
+	}
+	
+	/**
+	 * Buscar se a pautas que possuem sessão aberta
+	 * @return se a sessão foi encontrada retorna lsitade pautas
+	 *  */
+	@Override
+	public Mono<List<Pauta>> consultarPautasComSessaoAberta() {
+
+		List<Pauta> pautaDto = new ArrayList<>();
+
+		return sessaoService.recuperaSessoesAbertas().flatMap(listaCodigoPauta -> {
+
+			listaCodigoPauta.forEach(codigoPauta -> pautaDto.add(pautaRepository.findById(codigoPauta).get()));
+
+			return !pautaDto.isEmpty() ? Mono.just(pautaDto)
+					: Mono.error(new PautaException(MensagemVotacaoEnum.PAUTA_NAO_ENCONTRADA.getValor(),
+							HttpStatus.BAD_REQUEST.value()));
+		}).doOnError(onError -> Mono.error(new DatabaseException(MensagemVotacaoEnum.PAUTA_NAO_ENCONTRADA.getValor(),
+				HttpStatus.INTERNAL_SERVER_ERROR.value())));
+
+	}
 }
