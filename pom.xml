@@ -11,7 +11,7 @@
 	<groupId>com.desafio</groupId>
 	<artifactId>sessao</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>votacao</name>
+	<name>sessao</name>
 	<description>Chalenge by SouthSystem</description>
 
 	<properties>
