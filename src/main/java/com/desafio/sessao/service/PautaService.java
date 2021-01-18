@@ -19,6 +19,10 @@ import com.desafio.sessao.model.PautaVo;
 
 import reactor.core.publisher.Mono;
 
+/*
+ * Classe onde serão implementadas as regras
+ * de negócio para a manipulação dos dados da "Pauta".
+ * */
 @Service
 public class PautaService implements IPautaService {
 
@@ -30,7 +34,10 @@ public class PautaService implements IPautaService {
 	public PautaService(IPautaRepository pautaRepository) {
 		this.pautaRepository = pautaRepository;
 	}
-
+	
+	/**
+	 * Consulta todas as pautas cadastras na base de dados
+	 */
 	@Override
 	public Mono<List<Pauta>> consultarPautas() {
 		return Mono.just(pautaRepository.findAll())
@@ -39,6 +46,11 @@ public class PautaService implements IPautaService {
 								HttpStatus.NOT_FOUND.value())));
 	}
 
+	/**
+	 * Perssiste pauta na base de dados
+	 * @param descricao , descrição a ser aplicada na pauta que será perssistida 
+	 * @return se o pauta foi corretamente perssistida
+	 */
 	@Override
 	public Mono<Boolean> registrarPauta(PautaVo descricao) {
 
@@ -48,6 +60,11 @@ public class PautaService implements IPautaService {
 								HttpStatus.INTERNAL_SERVER_ERROR.value())))));
 	}
 
+	/**
+	 * buscar por pauta na base de dados
+	 * @param id , identificador a ser aplicada na pauta que será perssistida 
+	 * @return se o pauta foi corretamente perssistida
+	 */
 	@Override
 	public Mono<Pauta> consultarPautaPorId(Long id) {
 		try {
@@ -65,6 +82,11 @@ public class PautaService implements IPautaService {
 		}
 	}
 
+	/**
+	 * verificar se existe pauta correspondente ao identificador na base de dados
+	 * @param id , identificador a ser aplicada na busca da pauta
+	 * @return se o pauta existe
+	 */
 	@Override
 	public Mono<Boolean> consultarPautaExistente(Long id) {
 		try {
@@ -81,11 +103,21 @@ public class PautaService implements IPautaService {
 		}
 	}
 
+	/**
+	 * monta modelo de pauta que devera ser pessistido na base de dados
+	 * @param descricao , descrição a ser aplicada na pauta que será perssistida 
+	 * @return modelo criado
+	 */
 	protected Mono<Pauta> montarModeloEntrada(PautaVo descricao) {
 		Pauta pauta = Pauta.builder().descricao(descricao.getValor()).build();
 		return Mono.just(pauta);
 	}
-
+	
+	/**
+	 * valida descrição da pauta
+	 * @param descricao , descrição a ser aplicada na pauta que será perssistida 
+	 * @return se a descrição é valida
+	 */
 	private Mono<Boolean> validarTexto(PautaVo descricao) {
 		if (descricao.getValor() != null) {
 			String pautaDescricao = descricao.getValor();
