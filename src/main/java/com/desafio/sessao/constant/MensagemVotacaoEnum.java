@@ -13,6 +13,8 @@ public enum MensagemVotacaoEnum {
 	SESSAO_NAO_ENCONTRADA("Sessão(s) não encontrada(s)."),
 	SESSAO_NAO_ENCONTRADA_NESTA_PAUTA("Esta pauta não possui sessão aberta,favor abrir uma sessão."),
 	
+	VOTO_ASSOCIADO_NAO_ELEGIVEL("Este usuário não está elegível para votar."),
+	
 	ERRO_GENERICO("Erro genérico ocorrido do bakcend.");
 
 	private final String valor;
