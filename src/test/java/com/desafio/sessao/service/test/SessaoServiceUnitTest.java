@@ -18,6 +18,7 @@ import com.desafio.sessao.model.PautaVo;
 import com.desafio.sessao.repository.IPautaRepository;
 import com.desafio.sessao.service.IPautaService;
 import com.desafio.sessao.service.PautaService;
+import com.desafio.sessao.service.SessaoService;
 
 import reactor.core.publisher.Mono;
 
