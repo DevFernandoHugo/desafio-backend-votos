@@ -10,4 +10,8 @@ public interface ISessaoService {
 
 	Mono<Boolean> salvarSessao(Sessao sessao);
 
+	Mono<Boolean> verificarSessao(String chave);
+
+	Mono<List<Long>> recuperaSessoesAbertas();
+
 }
