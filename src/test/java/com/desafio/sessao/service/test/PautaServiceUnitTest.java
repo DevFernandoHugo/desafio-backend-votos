@@ -1,7 +1,6 @@
 package com.desafio.sessao.service.test;
 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.Assert;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -9,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.Assertions;
 
 import com.desafio.sessao.repository.IPautaRepository;
 import com.desafio.sessao.service.PautaService;
@@ -21,8 +21,6 @@ import com.desafio.sessao.entity.Pauta;
 import com.desafio.sessao.model.PautaVo;
 
 import reactor.core.publisher.Mono;
-
-import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,8 +99,8 @@ public class PautaServiceUnitTest {
 		Mockito.when(pautaRepository.findAll()).thenReturn(listPautaEntity);
 
 		pautaservice.consultarPautas().flatMap(list -> {
-			Assert.assertNotNull(list);
-			Assert.assertFalse(list.isEmpty());
+			Assertions.assertNotNull(list);
+			Assertions.assertFalse(list.isEmpty());
 			return Mono.empty();
 		}).subscribe();
 
@@ -117,7 +115,7 @@ public class PautaServiceUnitTest {
 
 		pautaservice.consultarPautas().onErrorResume(error -> {
 			PautaException erro = (PautaException) error;
-			assertEquals(HttpStatus.NOT_FOUND.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -136,8 +134,8 @@ public class PautaServiceUnitTest {
 		Mockito.when(pautaRepository.save(pautaD)).thenReturn(pautaE);
 
 		pautaservice.registrarPauta(pautaVo).map(ok -> {
-			Assert.assertNotNull(ok);
-			Assert.assertEquals(true, ok);
+			Assertions.assertNotNull(ok);
+			Assertions.assertEquals(true, ok);
 			return Mono.empty();
 		}).subscribe();
 	}
@@ -153,7 +151,7 @@ public class PautaServiceUnitTest {
 
 		pautaservice.registrarPauta(pautaVo).onErrorResume(error -> {
 			DatabaseException erro = (DatabaseException) error;
-			assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 	}
@@ -164,8 +162,8 @@ public class PautaServiceUnitTest {
 		Mockito.when(pautaRepository.findById(1L)).thenReturn(Optional.of(pautaEntity));
 
 		pautaservice.consultarPautaPorId(1L).flatMap(pauta -> {
-			Assert.assertNotNull(pauta);
-			Assert.assertTrue(Optional.of(pauta).isPresent());
+			Assertions.assertNotNull(pauta);
+			Assertions.assertTrue(Optional.of(pauta).isPresent());
 			return Mono.empty();
 		}).subscribe();
 	}
@@ -177,7 +175,7 @@ public class PautaServiceUnitTest {
 
 		pautaservice.consultarPautaPorId(1L).onErrorResume(error -> {
 			PautaException erro = (PautaException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -191,7 +189,7 @@ public class PautaServiceUnitTest {
 
 		pautaservice.consultarPautaPorId(1L).onErrorResume(error -> {
 			PautaException erro = (PautaException) error;
-			assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -203,8 +201,8 @@ public class PautaServiceUnitTest {
 		Mockito.when(pautaRepository.findById(1L)).thenReturn(Optional.of(pautaEntity));
 
 		pautaservice.consultarPautaExistente(1L).flatMap(ok -> {
-			Assert.assertNotNull(ok);
-			Assert.assertEquals(true, ok);
+			Assertions.assertNotNull(ok);
+			Assertions.assertEquals(true, ok);
 			return Mono.empty();
 		}).subscribe();
 	}
@@ -216,7 +214,7 @@ public class PautaServiceUnitTest {
 
 		pautaservice.consultarPautaExistente(1L).onErrorResume(error -> {
 			PautaException erro = (PautaException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 	}
@@ -229,7 +227,7 @@ public class PautaServiceUnitTest {
 
 		pautaservice.consultarPautaExistente(1L).onErrorResume(error -> {
 			PautaException erro = (PautaException) error;
-			assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -248,8 +246,8 @@ public class PautaServiceUnitTest {
 				.thenReturn(Optional.of(listPautaEntity.get(1)));
 
 		pautaservice.consultarPautasComSessaoAberta().flatMap(list -> {
-			Assert.assertNotNull(list);
-			Assert.assertFalse(list.isEmpty());
+			Assertions.assertNotNull(list);
+			Assertions.assertFalse(list.isEmpty());
 			return Mono.empty();
 		}).subscribe();
 
@@ -264,7 +262,7 @@ public class PautaServiceUnitTest {
 
 		pautaservice.consultarPautasComSessaoAberta().onErrorResume(error -> {
 			PautaException erro = (PautaException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -276,8 +274,8 @@ public class PautaServiceUnitTest {
 		Mockito.when(sessaoService.verificarSessao("2")).thenReturn(Mono.just(Boolean.TRUE));
 
 		pautaservice.verificarPautaSessaoAberta(2L).flatMap(ok -> {
-			Assert.assertNotNull(ok);
-			Assert.assertEquals(true, ok);
+			Assertions.assertNotNull(ok);
+			Assertions.assertEquals(true, ok);
 			return Mono.empty();
 		}).subscribe();
 	}

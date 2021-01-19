@@ -1,7 +1,7 @@
 package com.desafio.sessao.controller.test;
 
-import org.junit.Assert;
 import org.junit.FixMethodOrder;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,13 +16,10 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.desafio.sessao.entity.Voto;
 import com.desafio.sessao.model.VotacaoVo;
 import com.desafio.sessao.service.IVotacaoService;
-import com.desafio.sessao.service.IVotoService;
 
 import reactor.core.publisher.Mono;
 
@@ -61,7 +58,7 @@ public class VotacaoControllerUnitTest {
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON)
 				.retrieve().bodyToMono(new ParameterizedTypeReference<Object>() {
 				}).flatMap(response -> {
-					Assert.assertNotNull(response);
+					Assertions.assertNotNull(response);
 					return Mono.just(response);
 				}).block();
 	}

@@ -1,6 +1,6 @@
 package com.desafio.sessao.service.test;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -16,8 +16,6 @@ import com.desafio.sessao.service.VotoService;
 import com.desafio.sessao.entity.Pauta;
 import com.desafio.sessao.exception.VotacaoException;
 import com.desafio.sessao.service.VotacaoService;
-
-import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import org.junit.runners.MethodSorters;
@@ -74,8 +72,8 @@ public class VotacaoServiceUnitTest {
 		Mockito.when(pautaService.consultarPautaPorId(codigoPauta)).thenReturn(Mono.just(pautaEntity));
 		
 		votacaoService.recuperarVotacaoPauta(codigoPauta).map(votacao -> {
-			Assert.assertNotNull(votacao);
-			Assert.assertEquals(votacao.getDescricaoPauta(), "segunda Pauta");
+			Assertions.assertNotNull(votacao);
+			Assertions.assertEquals(votacao.getDescricaoPauta(), "segunda Pauta");
 			return Mono.empty();
 		}).subscribe();
 	}
@@ -89,7 +87,7 @@ public class VotacaoServiceUnitTest {
 		
 		votacaoService.recuperarVotacaoPauta(codigoPauta).onErrorResume(error -> {
 			VotacaoException erro = (VotacaoException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 	}
@@ -103,7 +101,7 @@ public class VotacaoServiceUnitTest {
 		
 		votacaoService.recuperarVotacaoPauta(codigoPauta).onErrorResume(error -> {
 			VotacaoException erro = (VotacaoException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 	}

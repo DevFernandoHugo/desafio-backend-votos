@@ -1,5 +1,6 @@
 package com.desafio.sessao.service.test;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,12 +29,9 @@ import com.desafio.sessao.exception.SessaoException;
 
 import reactor.core.publisher.Mono;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Optional;
 import java.util.Set;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -99,8 +97,8 @@ public class SessaoServiceUnitTest {
 		Mockito.when(pautaRepository.findById(code)).thenReturn(Optional.of(pautaEntity));
 
 		sessaoService.salvarSessao(sessaoRedis).map(ok -> {
-			Assert.assertNotNull(ok);
-			Assert.assertEquals(true, ok);
+			Assertions.assertNotNull(ok);
+			Assertions.assertEquals(true, ok);
 			return Mono.empty();
 		}).subscribe();
 
@@ -128,8 +126,8 @@ public class SessaoServiceUnitTest {
 		Mockito.when(pautaRepository.findById(code)).thenReturn(Optional.of(pautaEntity));
 
 		sessaoService.salvarSessao(sessaoRedisPrazo).map(ok -> {
-			Assert.assertNotNull(ok);
-			Assert.assertEquals(true, ok);
+			Assertions.assertNotNull(ok);
+			Assertions.assertEquals(true, ok);
 			return Mono.empty();
 		}).subscribe();
 	}
@@ -157,8 +155,8 @@ public class SessaoServiceUnitTest {
 		Mockito.when(pautaRepository.findById(code)).thenReturn(Optional.of(pautaEntity));
 
 		sessaoService.salvarSessao(sessaoRedisPrazo).map(ok -> {
-			Assert.assertNotNull(ok);
-			Assert.assertEquals(true, ok);
+			Assertions.assertNotNull(ok);
+			Assertions.assertEquals(true, ok);
 			return Mono.empty();
 		}).subscribe();
 
@@ -171,7 +169,7 @@ public class SessaoServiceUnitTest {
 
 		sessaoService.salvarSessao(sessaoRedis).onErrorResume(error -> {
 			PautaException erro = (PautaException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -187,7 +185,7 @@ public class SessaoServiceUnitTest {
 
 		sessaoService.salvarSessao(sessaoRedis).onErrorResume(error -> {
 			SessaoException erro = (SessaoException) error;
-			assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -211,7 +209,7 @@ public class SessaoServiceUnitTest {
 		ReflectionTestUtils.setField(sessaoService, "redisTemplate", redisTemplate);
 
 		sessaoService.recuperaSessoesAbertas().map(keys -> {
-			Assert.assertNotNull(keys);
+			Assertions.assertNotNull(keys);
 			return Mono.empty();
 		}).subscribe();
 
@@ -239,7 +237,7 @@ public class SessaoServiceUnitTest {
 
 		sessaoService.recuperaSessoesAbertas().onErrorResume(error -> {
 			DatabaseException erro = (DatabaseException) error;
-			assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -263,8 +261,8 @@ public class SessaoServiceUnitTest {
 		ReflectionTestUtils.setField(sessaoService, "redisTemplate", redisTemplate);
 
 		sessaoService.verificarSessao(chave).map(ok -> {
-			Assert.assertNotNull(ok);
-			Assert.assertEquals(true, ok);
+			Assertions.assertNotNull(ok);
+			Assertions.assertEquals(true, ok);
 			return Mono.empty();
 		}).subscribe();
 
@@ -288,7 +286,7 @@ public class SessaoServiceUnitTest {
 
 		sessaoService.verificarSessao(chave).onErrorResume(error -> {
 			SessaoException erro = (SessaoException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -313,7 +311,7 @@ public class SessaoServiceUnitTest {
 
 		sessaoService.verificarSessao(chave).onErrorResume(error -> {
 			DatabaseException erro = (DatabaseException) error;
-			assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 

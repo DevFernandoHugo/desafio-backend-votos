@@ -1,16 +1,14 @@
 package com.desafio.sessao.service.test;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -86,8 +84,8 @@ public class VotoServiceUnitTest {
 		Mockito.when(votoRepository.save(votoEntity)).thenReturn(votoEntity);
 
 		votoService.criarVoto(votoEntity).map(ok -> {
-			Assert.assertNotNull(ok);
-			Assert.assertEquals(true, ok);
+			Assertions.assertNotNull(ok);
+			Assertions.assertEquals(true, ok);
 			return Mono.empty();
 		}).subscribe();
 
@@ -115,7 +113,7 @@ public class VotoServiceUnitTest {
 
 		votoService.criarVoto(votoEntity).onErrorResume(error -> {
 			VotoException erro = (VotoException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -143,7 +141,7 @@ public class VotoServiceUnitTest {
 
 		votoService.criarVoto(votoEntity).onErrorResume(error -> {
 			VotoException erro = (VotoException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -170,7 +168,7 @@ public class VotoServiceUnitTest {
 
 		votoService.criarVoto(votoEntity).onErrorResume(error -> {
 			VotoException erro = (VotoException) error;
-			assertEquals(HttpStatus.NOT_FOUND.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -199,7 +197,7 @@ public class VotoServiceUnitTest {
 
 		votoService.criarVoto(votoEntity).onErrorResume(error -> {
 			VotoException erro = (VotoException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -227,7 +225,7 @@ public class VotoServiceUnitTest {
 
 		votoService.criarVoto(votoEntity).onErrorResume(error -> {
 			SessaoException erro = (SessaoException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 
@@ -240,8 +238,8 @@ public class VotoServiceUnitTest {
 		Mockito.when(votoRepository.buscarVotosPauta(codigo)).thenReturn(Arrays.asList(votoEntity));
 
 		votoService.buscarVotosPorPauta(codigo).flatMap(list -> {
-			Assert.assertNotNull(list);
-			Assert.assertFalse(list.isEmpty());
+			Assertions.assertNotNull(list);
+			Assertions.assertFalse(list.isEmpty());
 			return Mono.empty();
 		}).subscribe();
 
@@ -255,7 +253,7 @@ public class VotoServiceUnitTest {
 
 		votoService.buscarVotosPorPauta(codigo).onErrorResume(error -> {
 			VotoException erro = (VotoException) error;
-			assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
+			Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), erro.getStatusCode());
 			return Mono.empty();
 		}).subscribe();
 

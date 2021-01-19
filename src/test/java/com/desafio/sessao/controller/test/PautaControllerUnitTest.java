@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.FixMethodOrder;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -95,8 +95,8 @@ public class PautaControllerUnitTest {
 				.body(BodyInserters.fromPublisher(Mono.just(pautaVo), PautaVo.class)).retrieve()
 				.bodyToMono(new ParameterizedTypeReference<Object>() {
 				}).flatMap(response -> {
-					Assert.assertNotNull(response);
-					Assert.assertEquals(true, response);
+					Assertions.assertNotNull(response);
+					Assertions.assertEquals(true, response);
 					return Mono.just(response);
 				}).block();
 	}
@@ -110,8 +110,8 @@ public class PautaControllerUnitTest {
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON)
 				.retrieve().bodyToMono(new ParameterizedTypeReference<List<LinkedHashMap<?, ?>>>() {
 				}).flatMap(response -> {
-					Assert.assertNotNull(response);
-					Assert.assertEquals("primeira Pauta", response.get(0).get("descricao").toString());
+					Assertions.assertNotNull(response);
+					Assertions.assertEquals("primeira Pauta", response.get(0).get("descricao").toString());
 					return Mono.just(response);
 				}).block();
 
@@ -127,7 +127,7 @@ public class PautaControllerUnitTest {
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON)
 				.retrieve().bodyToMono(new ParameterizedTypeReference<Object>() {
 				}).flatMap(response -> {
-					Assert.assertNotNull(response);
+					Assertions.assertNotNull(response);
 					return Mono.just(response);
 				}).block();
 	}
@@ -141,7 +141,7 @@ public class PautaControllerUnitTest {
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).accept(MediaType.APPLICATION_JSON)
 				.retrieve().bodyToMono(new ParameterizedTypeReference<List<LinkedHashMap<?, ?>>>() {
 				}).flatMap(response -> {
-					Assert.assertNotNull(response);				
+					Assertions.assertNotNull(response);				
 					return Mono.just(response);
 				}).block();
 	}

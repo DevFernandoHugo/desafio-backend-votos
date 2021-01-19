@@ -1,8 +1,8 @@
 package com.desafio.sessao.controller.test;
 
-import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,8 +65,8 @@ public class SessaoControllerUnitTest {
 				.body(BodyInserters.fromPublisher(Mono.just(sessaoRedis), Sessao.class)).retrieve()
 				.bodyToMono(new ParameterizedTypeReference<Object>() {
 				}).flatMap(response -> {
-					Assert.assertNotNull(response);
-					Assert.assertEquals(true, response);
+					Assertions.assertNotNull(response);
+					Assertions.assertEquals(true, response);
 					return Mono.empty();
 				}).block();
 	}
