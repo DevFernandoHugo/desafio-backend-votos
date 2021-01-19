@@ -66,7 +66,7 @@ public class PautaService implements IPautaService {
 	}
 
 	/**
-	 * buscar por pauta na base de dados
+	 * Buscar por pauta na base de dados
 	 * @param id , identificador a ser aplicada na pauta que será perssistida 
 	 * @return se o pauta foi corretamente perssistida
 	 */
