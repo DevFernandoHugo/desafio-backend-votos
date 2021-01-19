@@ -14,6 +14,10 @@ public enum MensagemVotacaoEnum {
 	SESSAO_NAO_ENCONTRADA_NESTA_PAUTA("Esta pauta não possui sessão aberta,favor abrir uma sessão."),
 	
 	VOTO_ASSOCIADO_NAO_ELEGIVEL("Este usuário não está elegível para votar."),
+	VOTO_PAUTA_NAO_ENCONTRADO("Não foi encontrado votos finculados a esta pauta"),
+	VOTO_ASSOCIADO_VOTOU("Associado já votou nesta pauta."),
+	
+	VOTO_CPF_INVALIDO("Cpf inválido,favor repasse um cpf valido."),
 	
 	ERRO_GENERICO("Erro genérico ocorrido do bakcend.");
 

@@ -52,7 +52,7 @@ public class PautaService implements IPautaService {
 	}
 
 	/**
-	 * Perssiste pauta na base de dados
+	 * Persistir pauta na base de dados
 	 * @param descricao , descrição a ser aplicada na pauta que será perssistida 
 	 * @return se o pauta foi corretamente perssistida
 	 */
