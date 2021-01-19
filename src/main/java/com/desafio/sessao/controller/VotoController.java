@@ -16,27 +16,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.desafio.sessao.entity.Sessao;
-import com.desafio.sessao.service.ISessaoService;
+import com.desafio.sessao.entity.Voto;
+import com.desafio.sessao.service.IVotoService;
 
 @RestController
-@RequestMapping("/sessao")
+@RequestMapping("/voto")
 @CrossOrigin(origins = "*")
-public class SessaoController {
+public class VotoController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(SessaoController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(VotoController.class);
 
 	@Autowired
-	private ISessaoService sessaoService;
+	private IVotoService votoService;
 
 	@PostMapping
-	@ApiOperation(value = "Abrir sessão")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "pauta sessao aberta com sucesso"),
-			@ApiResponse(code = 400, message = "Erro ao tentar abrir sessão"),
+	@ApiOperation(value = "Criar voto")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "voto criado com sucesso"),
+			@ApiResponse(code = 400, message = "Erro ao tentar criar voto"),
+			@ApiResponse(code = 404, message = "Erro parâmetro inválido"),
 			@ApiResponse(code = 500, message = "Erro inesperado") })
-	public Mono<ResponseEntity<Boolean>> abrirSessao(@RequestBody Sessao sessao) {
+	public Mono<ResponseEntity<Boolean>> criaVoto(@RequestBody Voto voto) {
 		LOG.debug("Controlador envia pauta");
-		return sessaoService.salvarSessao(sessao).map(pautas -> ResponseEntity.status(HttpStatus.OK).body(pautas));
+		return votoService.criarVoto(voto).map(votoRealizado -> {
+			return ResponseEntity.status(HttpStatus.OK).body(votoRealizado);
+		});
 	}
 
 }

@@ -5,7 +5,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -22,10 +21,7 @@ import com.desafio.sessao.constant.MensagemVotacaoEnum;
 import com.desafio.sessao.entity.Sessao;
 import com.desafio.sessao.exception.DatabaseException;
 import com.desafio.sessao.exception.PautaException;
-import com.desafio.sessao.model.PautaVo;
 import com.desafio.sessao.repository.IPautaRepository;
-import com.desafio.sessao.service.IPautaService;
-import com.desafio.sessao.service.PautaService;
 import com.desafio.sessao.service.SessaoService;
 import com.desafio.sessao.entity.Pauta;
 import com.desafio.sessao.exception.SessaoException;
@@ -34,8 +30,6 @@ import reactor.core.publisher.Mono;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
